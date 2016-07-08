@@ -4,6 +4,25 @@ import os, sys
 import random
 import numpy
 
+def read_xyz(input_filename):
+
+    inputFile = open(input_filename, 'r')
+
+    natoms = int(inputFile.readline())
+    inputFile.readline() # skip comment line
+
+    atom_names = []
+    atom_coords = numpy.zeros((natoms,3),dtype=float)
+
+    for i in range(natoms):
+        line = inputFile.readline()
+        atom_names.append(line.split()[0])
+        atom_coords[i][0] = float(line.split()[1])
+        atom_coords[i][1] = float(line.split()[2])
+        atom_coords[i][2] = float(line.split()[3])
+
+    return atom_names, atom_coords
+
 def main():
     """
     This code adds thermal noise to a set of atoms
@@ -76,26 +95,6 @@ def main():
             outputFile.write(name + ' ' + repr(xcart) + '   ' + repr(ycart) + '   ' + repr(zcart) + '\n')
             id += 1   
     outputFile.close()
-
-
-def read_xyz(input_filename):
-
-    inputFile = open(input_filename, 'r')
-
-    natoms = int(inputFile.readline())
-    inputFile.readline() # skip comment line
-
-    atom_names = []
-    atom_coords = numpy.zeros((natoms,3),dtype=float)
-
-    for i in range(natoms):
-        line = inputFile.readline()
-        atom_names.append(line.split()[0])
-        atom_coords[i][0] = float(line.split()[1])
-        atom_coords[i][1] = float(line.split()[2])
-        atom_coords[i][2] = float(line.split()[3])
-
-    return atom_names, atom_coords
 
 
 
